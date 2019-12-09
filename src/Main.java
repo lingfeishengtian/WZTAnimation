@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -21,15 +19,14 @@ class FrameDrawing extends JFrame{
         cd.setBackground(new Color(113, 170, 230));
         add(cd);
 
-        addKeyListener(new KeyListener() {
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
-            public void keyTyped(KeyEvent e) { }
-            @Override
-            public void keyPressed(KeyEvent e) {
-                cd.keyPressed(e);
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if(e.getID() == KeyEvent.KEY_PRESSED){
+                    cd.keyPressed(e);
+                }
+                return false;
             }
-            @Override
-            public void keyReleased(KeyEvent e) { }
         });
         addWindowListener(new WindowAdapter() {
 
@@ -66,7 +63,7 @@ class WZTCanvas extends Canvas{
             if(!petals.isEmpty())
                 petals.remove(BackgroundControl.petals.size() - 1);
         }else if(e.getKeyChar() == 'i'){
-            
+
         }
     }
 
