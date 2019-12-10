@@ -67,13 +67,6 @@ class WZTCanvas extends Canvas{
         }
     }
 
-//    @Override
-//    public void repaint() {
-//        //update(getGraphics());
-//        //paint(getGraphics());
-//        super.repaint();
-//    }
-
     public void animate(Graphics g){
         Graphics2D g2d = (Graphics2D)g;
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
@@ -90,6 +83,10 @@ class WZTCanvas extends Canvas{
         BackgroundControl.drawShu(g, 30, 500);
         ParticleManager.drawFrame(g);
         WZT.drawWZT(g);
+    }
+
+    public void update(Graphics g) {
+        paint(g);
     }
 
     @Override
