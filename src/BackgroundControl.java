@@ -10,6 +10,8 @@ public class BackgroundControl {
         g.fillRect(0, 500, 1000, 200);
         g.setColor(Color.black);
         g.drawString("Press i for more information!", 400, 20);
+        BackgroundControl.drawShu(g, 30, 500);
+        BackgroundControl.drawShu(g, 600, 500);
     }
 
     /**
@@ -76,7 +78,7 @@ class Petal{
         drawPetal((int) newX, (int) newY, g);
     }
 
-    private void drawPetal(int startX, int startY, Graphics g){
+    public void drawPetal(int startX, int startY, Graphics g){
         Graphics2D graphics2D = (Graphics2D) g;
         GeneralPath petal = new GeneralPath();
         petal.moveTo(startX, startY);

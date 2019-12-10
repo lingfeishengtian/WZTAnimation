@@ -54,6 +54,8 @@ class FrameDrawing extends JFrame{
 class WZTCanvas extends Canvas{
     BufferedImage bf = new BufferedImage( 1000, 700,
             BufferedImage.TYPE_INT_RGB);
+    int frameNum = 0;
+    int speedIntensity = 100;
 
     public void keyPressed(KeyEvent e){
         ArrayList<Petal> petals = BackgroundControl.petals;
@@ -62,12 +64,17 @@ class WZTCanvas extends Canvas{
         }else if(e.getKeyChar() == '-'){
             if(!petals.isEmpty())
                 petals.remove(BackgroundControl.petals.size() - 1);
+        }else if(e.getKeyChar() == 'w') {
+            speedIntensity += 1;
+        }else if(e.getKeyChar() == 'q') {
+            speedIntensity -= 1;
         }else if(e.getKeyChar() == 'i'){
 
         }
     }
 
     public void animate(Graphics g){
+        frameNum++;
         Graphics2D g2d = (Graphics2D)g;
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -80,9 +87,10 @@ class WZTCanvas extends Canvas{
         g.setColor(new Color(113, 170, 230));
         g.fillRect(0,0,1000,700);
         BackgroundControl.drawBackground(g);
-        BackgroundControl.drawShu(g, 30, 500);
         ParticleManager.drawFrame(g);
-        WZT.drawWZT(g);
+        WZT.drawWZT(g, frameNum, speedIntensity);
+
+        if(frameNum > 1000) frameNum = 0;
     }
 
     public void update(Graphics g) {
