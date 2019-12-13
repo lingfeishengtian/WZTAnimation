@@ -1,5 +1,8 @@
 import java.awt.*;
 
+/**
+ * Custom dialog is a dialog to display title and body text in a better style than default Java dialogs
+ */
 class CustomDialog {
     private String title, body;
 

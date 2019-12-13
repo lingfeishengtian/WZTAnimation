@@ -1,6 +1,10 @@
 import java.awt.*;
 
 class ParticleManager {
+    /**
+     * Was going to be a big class but not enough time unfortunately
+     * @param g Graphics
+     */
     static void drawFrame(Graphics g) {
         petalCallPerFrame(g);
     }

@@ -5,7 +5,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TimerTask;
 
-class Main {
+/**
+ * Main class to run the application and initialize audio
+ */
+class WuZeTian {
     static final long programStartTime = System.currentTimeMillis();
 
     public static void main(String[] args) {
@@ -17,13 +20,20 @@ class Main {
     }
 }
 
+/**
+ * JFrame to load up the canvas and initialize keyboard and mouse listeners.
+ *
+ * Also used to set the delay and repeat of new frame rendering
+ */
 class FrameDrawing extends JFrame {
     FrameDrawing() {
+        // Initialize Canvas
         WZTCanvas cd = new WZTCanvas();
         cd.setSize(1000, 700);
         cd.setBackground(new Color(113, 170, 230));
         add(cd);
 
+        // Add key tracker
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
             if (e.getID() == KeyEvent.KEY_PRESSED) {
                 cd.keyPressed(e);
@@ -31,6 +41,7 @@ class FrameDrawing extends JFrame {
             return false;
         });
 
+        // Custom mouse listener that tracks if you held the mouse position
         cd.addMouseListener(new MouseAdapter() {
             java.util.Timer timer = new java.util.Timer();
 
@@ -52,6 +63,7 @@ class FrameDrawing extends JFrame {
             }
         });
 
+        // Just to make sure the program exits when the window disappears
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent arg0) {
@@ -59,9 +71,8 @@ class FrameDrawing extends JFrame {
             }
         });
 
-        ActionListener action = e -> cd.repaint();
-
-        Timer t = new Timer(5, action);
+        // Timer to render each frame
+        Timer t = new Timer(5, e -> cd.repaint());
         t.setRepeats(true);
         t.setInitialDelay(0);
         t.start();
@@ -69,6 +80,17 @@ class FrameDrawing extends JFrame {
     }
 }
 
+/**
+ * Canvas for rendering and control
+ *
+ * Timer t is passed from the main JPanel and is used to stop and start the frame re-rendering when necessary
+ * BufferedImage is used to solve the issue of flickering by rendering Java graphics as a image and displaying the image whenever it is finished being rendered
+ * Frame Number tracks the number of frames passed. It uses a long just in case the user uses the program for a very long time
+ * Speed Intensity controls how the sleeves are affected by wind
+ * Raise is how much the sleeves are raised
+ * Render dialogue is a boolean to track if the information dialogue should be shown or not
+ * Custom Dialogue is the custom dialogue made to show the information dialogue without using Java's disgusting dialogues
+ */
 class WZTCanvas extends Canvas {
     Timer t;
     private BufferedImage bf = new BufferedImage(1000, 700,
@@ -126,6 +148,10 @@ class WZTCanvas extends Canvas {
         }
     }
 
+    /**
+     * Animate every frame
+     * @param g Graphics2D
+     */
     private void animate(Graphics g) {
         frameNum++;
         ((Graphics2D) g).scale(getWidth() / 1000.0, getHeight() / 700.0);
@@ -133,12 +159,16 @@ class WZTCanvas extends Canvas {
         BackgroundControl.drawBackground(g);
         BackgroundControl.showFPS(frameNum, 10, 10, g);
         ParticleManager.drawFrame(g);
-        WZT.drawWZT(g, frameNum, speedIntensity, raise);
+        WZTCharacter.drawWZT(g, frameNum, speedIntensity, raise);
         if (renderDialogue) {
             customDialog.drawDialog(g, 1000, 700);
         }
     }
 
+    /**
+     * To setup the BufferedImage rendering properties
+     * @param g BufferedImage graphics
+     */
     private void setGraphicsProperties(Graphics2D g) {
         g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -150,15 +180,26 @@ class WZTCanvas extends Canvas {
         g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
     }
 
+    /**
+     * Reset the canvas
+     * @param g Graphics2D
+     */
     private void reset(Graphics g) {
         g.setColor(new Color(113, 170, 230));
         g.fillRect(0, 0, 1000, 700);
     }
 
+    /**
+     * Called to completely repaint and prevent flickering
+     */
     public void update(Graphics g) {
         paint(g);
     }
 
+    /**
+     * Renders the buffered image and shows it
+     * @param g Graphics2D
+     */
     @Override
     public void paint(Graphics g) {
         bf = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
