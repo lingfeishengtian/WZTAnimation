@@ -3,12 +3,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 public class Main {
     public static void main(String[] args) {
             JFrame frame = new FrameDrawing();
             frame.setSize(1000, 700);
             frame.setVisible(true);
+            AudioManager.playBGM();
+            AudioManager.playBreeze();
     }
 }
 
@@ -26,6 +29,25 @@ class FrameDrawing extends JFrame{
                     cd.keyPressed(e);
                 }
                 return false;
+            }
+        });
+        cd.addMouseListener(new MouseAdapter() {
+            java.util.Timer timer = new java.util.Timer();
+            @Override
+            public void mousePressed(MouseEvent e) {
+                timer = new java.util.Timer();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        cd.mousePressed(e);
+                    }
+                }, 0, 10);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                timer.cancel();
+                cd.mouseReleased(e);
             }
         });
         addWindowListener(new WindowAdapter() {
@@ -48,14 +70,39 @@ class FrameDrawing extends JFrame{
         t.setRepeats(true);
         t.setInitialDelay(0);
         t.start();
+        cd.t = t;
     }
 }
 
 class WZTCanvas extends Canvas{
+    Timer t;
     BufferedImage bf = new BufferedImage( 1000, 700,
             BufferedImage.TYPE_INT_RGB);
     int frameNum = 0;
     int speedIntensity = 100;
+    int raise = 0;
+
+    public void mouseReleased(MouseEvent e){
+        slowyPullDown();
+    }
+
+    public void slowyPullDown(){
+        t.stop();
+        java.util.Timer timer = new java.util.Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(raise > 0) raise -= 1;
+                else timer.cancel();
+            }
+        }, 0, 10);
+        //timer.cancel();
+        t.start();
+    }
+
+    public void mousePressed(MouseEvent e){
+        if (raise < 20) raise += 1;
+    }
 
     public void keyPressed(KeyEvent e){
         ArrayList<Petal> petals = BackgroundControl.petals;
@@ -66,10 +113,16 @@ class WZTCanvas extends Canvas{
                 petals.remove(BackgroundControl.petals.size() - 1);
         }else if(e.getKeyChar() == 'w') {
             speedIntensity += 1;
+            if(speedIntensity > 1000) speedIntensity = 1000;
         }else if(e.getKeyChar() == 'q') {
             speedIntensity -= 1;
+            if(speedIntensity < 1) speedIntensity = 1;
         }else if(e.getKeyChar() == 'i'){
 
+        }else if(e.getKeyChar() == 'a'){
+            if(!AudioManager.isBGMOn()) AudioManager.continueBGM();
+        }else if(e.getKeyChar() == 's'){
+            AudioManager.stopBGM();
         }
     }
 
@@ -88,7 +141,7 @@ class WZTCanvas extends Canvas{
         g.fillRect(0,0,1000,700);
         BackgroundControl.drawBackground(g);
         ParticleManager.drawFrame(g);
-        WZT.drawWZT(g, frameNum, speedIntensity);
+        WZT.drawWZT(g, frameNum, speedIntensity, raise);
 
         if(frameNum > 1000) frameNum = 0;
     }
