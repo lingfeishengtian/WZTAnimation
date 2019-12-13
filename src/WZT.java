@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 public class WZT {
-    public static void drawWZT(Graphics g, int iterations, int speed, int raise)
+    public static void drawWZT(Graphics g, long iterations, int speed, int raise)
     {
         int xpoints [];
         int ypoints [];

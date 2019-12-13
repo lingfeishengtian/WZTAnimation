@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.TimerTask;
 
 public class Main {
+    public static final long programStartTime = System.currentTimeMillis();
+
     public static void main(String[] args) {
             JFrame frame = new FrameDrawing();
             frame.setSize(1000, 700);
@@ -31,8 +33,13 @@ class FrameDrawing extends JFrame{
                 return false;
             }
         });
+
+        /**
+         * Custom mouse adapter used to implement sleeve movement and custom click and hold action.
+         */
         cd.addMouseListener(new MouseAdapter() {
             java.util.Timer timer = new java.util.Timer();
+
             @Override
             public void mousePressed(MouseEvent e) {
                 timer = new java.util.Timer();
@@ -50,13 +57,15 @@ class FrameDrawing extends JFrame{
                 cd.mouseReleased(e);
             }
         });
-        addWindowListener(new WindowAdapter() {
 
+        /**
+         * Close menu when window exits
+         */
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent arg0) {
                 System.exit(0);
             }
-
         });
 
         ActionListener action = new ActionListener(){
@@ -78,9 +87,13 @@ class WZTCanvas extends Canvas{
     Timer t;
     BufferedImage bf = new BufferedImage( 1000, 700,
             BufferedImage.TYPE_INT_RGB);
-    int frameNum = 0;
+    long frameNum = 0;
     int speedIntensity = 100;
     int raise = 0;
+
+    public WZTCanvas(){
+        setGraphicsProperties((Graphics2D) bf.getGraphics());
+    }
 
     public void mouseReleased(MouseEvent e){
         slowyPullDown();
@@ -96,7 +109,6 @@ class WZTCanvas extends Canvas{
                 else timer.cancel();
             }
         }, 0, 10);
-        //timer.cancel();
         t.start();
     }
 
@@ -128,7 +140,15 @@ class WZTCanvas extends Canvas{
 
     public void animate(Graphics g){
         frameNum++;
-        Graphics2D g2d = (Graphics2D)g;
+        reset(g);
+        BackgroundControl.drawBackground(g);
+        BackgroundControl.showFPS(frameNum, 10, 10, g);
+        ParticleManager.drawFrame(g);
+        WZT.drawWZT(g, frameNum, speedIntensity, raise);
+    }
+
+    private void setGraphicsProperties(Graphics2D g) {
+        Graphics2D g2d = g;
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
@@ -137,13 +157,11 @@ class WZTCanvas extends Canvas{
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
+    }
+
+    private void reset(Graphics g) {
         g.setColor(new Color(113, 170, 230));
         g.fillRect(0,0,1000,700);
-        BackgroundControl.drawBackground(g);
-        ParticleManager.drawFrame(g);
-        WZT.drawWZT(g, frameNum, speedIntensity, raise);
-
-        if(frameNum > 1000) frameNum = 0;
     }
 
     public void update(Graphics g) {

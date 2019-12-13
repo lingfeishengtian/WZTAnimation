@@ -14,6 +14,21 @@ public class BackgroundControl {
         BackgroundControl.drawShu(g, 600, 500);
     }
 
+    public static void showFPS(long frameNum, int x, int y, Graphics g){
+        g.setColor(Color.black);
+        g.drawString(Long.toString(getFramesPerSecond(frameNum)) + " FPS", x, y);
+    }
+
+    private static long timeSinceProgramStarted(){
+        return System.currentTimeMillis() - Main.programStartTime;
+    }
+
+    public static long getFramesPerSecond(long frameNum){
+        if((timeSinceProgramStarted() / 1000) > 0)
+            return (frameNum) / (timeSinceProgramStarted() / 1000);
+        else return 0;
+    }
+
     /**
      * 画一个美丽的桃花树！！！！！！！
      * 景色！！！！
@@ -35,17 +50,6 @@ public class BackgroundControl {
         g.setColor(Color.pink);
         g.fillOval(initialX - 100, initialY - 500, 350, 350);
     }
-
-    public static void petalCallPerFrame(Graphics g){
-        for (Petal x :
-                petals) {
-            if(x.isInRange())
-                x.move(g);
-            else
-                x.setRandPos();
-        }
-    }
-
 }
 
 class Petal{
