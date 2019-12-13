@@ -1,14 +1,14 @@
 import java.awt.*;
 
-public class ParticleManager {
-    public static void drawFrame(Graphics g){
+class ParticleManager {
+    static void drawFrame(Graphics g) {
         petalCallPerFrame(g);
     }
 
-    public static void petalCallPerFrame(Graphics g){
+    private static void petalCallPerFrame(Graphics g) {
         for (Petal x :
                 BackgroundControl.petals) {
-            if(x.isInRange())
+            if (x.isInRange())
                 x.move(g);
             else
                 x.setRandPos();

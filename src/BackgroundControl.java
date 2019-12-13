@@ -2,10 +2,10 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
-public class BackgroundControl {
-    public static ArrayList<Petal> petals = new ArrayList<>();
+class BackgroundControl {
+    static ArrayList<Petal> petals = new ArrayList<>();
 
-    public static void drawBackground(Graphics g) {
+    static void drawBackground(Graphics g) {
         g.setColor(new Color(126, 200, 80));
         g.fillRect(0, 500, 1000, 200);
         g.setColor(Color.black);
@@ -14,17 +14,17 @@ public class BackgroundControl {
         BackgroundControl.drawShu(g, 600, 500);
     }
 
-    public static void showFPS(long frameNum, int x, int y, Graphics g){
+    static void showFPS(long frameNum, int x, int y, Graphics g) {
         g.setColor(Color.black);
-        g.drawString(Long.toString(getFramesPerSecond(frameNum)) + " FPS", x, y);
+        g.drawString((getFramesPerSecond(frameNum)) + " FPS", x, y);
     }
 
-    private static long timeSinceProgramStarted(){
+    private static long timeSinceProgramStarted() {
         return System.currentTimeMillis() - Main.programStartTime;
     }
 
-    public static long getFramesPerSecond(long frameNum){
-        if((timeSinceProgramStarted() / 1000) > 0)
+    private static long getFramesPerSecond(long frameNum) {
+        if ((timeSinceProgramStarted() / 1000) > 0)
             return (frameNum) / (timeSinceProgramStarted() / 1000);
         else return 0;
     }
@@ -33,11 +33,11 @@ public class BackgroundControl {
      * 画一个美丽的桃花树！！！！！！！
      * 景色！！！！
      *
-     * @param g Graphics
+     * @param g        Graphics
      * @param initialX Bottom Left corner of bark
      * @param initialY Also bottom left corner of bark
      */
-    public static void drawShu(Graphics g, int initialX, int initialY){
+    private static void drawShu(Graphics g, int initialX, int initialY) {
         GeneralPath tree = new GeneralPath();
         tree.moveTo(initialX, initialY);
         tree.curveTo(initialX, initialY, initialX + 20, initialY - 100, initialX, initialY - 200);
@@ -52,29 +52,26 @@ public class BackgroundControl {
     }
 }
 
-class Petal{
+class Petal {
     private int initialX, initialY;
     private int iterations;
 
-    public void setRandPos(){
+    void setRandPos() {
         iterations = 0;
         initialY = 0;
         initialX = (int) (Math.random() * 800 + 100);
     }
 
-    public boolean isInRange(){
-        if(initialY + iterations > 490)
-            return false;
-        else
-            return true;
+    boolean isInRange() {
+        return initialY + iterations <= 490;
     }
 
-    public Petal(int iX, int iY){
+    Petal(int iX, int iY) {
         initialX = iX;
-        initialY= iY;
+        initialY = iY;
     }
 
-    public void move(Graphics g){
+    void move(Graphics g) {
         double newX = 90 * Math.pow(Math.E, -0.01 * iterations) * Math.cos((Math.PI / 50) * iterations) + initialX;
         double newY = initialY + iterations;
 
@@ -82,7 +79,7 @@ class Petal{
         drawPetal((int) newX, (int) newY, g);
     }
 
-    public void drawPetal(int startX, int startY, Graphics g){
+   private void drawPetal(int startX, int startY, Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
         GeneralPath petal = new GeneralPath();
         petal.moveTo(startX, startY);
@@ -91,7 +88,7 @@ class Petal{
         petal.curveTo(startX + 20, startY, startX + 10, startY + 10, startX, startY);
 
         petal.closePath();
-        graphics2D.setColor(new Color(244,121,131));
+        graphics2D.setColor(new Color(244, 121, 131));
         graphics2D.fill(petal);
     }
 }

@@ -1,30 +1,30 @@
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 
-public class WZT {
-    public static void drawWZT(Graphics g, long iterations, int speed, int raise)
-    {
-        int xpoints [];
-        int ypoints [];
+class WZT {
+    static void drawWZT(Graphics g, long iterations, int speed, int raise) {
+        int[] xpoints;
+        int[] ypoints;
         int npoints;
+
         //color
-        Color skin = new Color (255, 244, 203);
-        Color jacket = new Color (201,31,55);
-        Color black = new Color (0,0,0);
-        Color shirt = new Color (255,179,167);
-        Color white = new Color (255,255,255);
-        Color line = new Color (240,86,84);
+        Color skin = new Color(255, 244, 203);
+        Color jacket = new Color(201, 31, 55);
+        Color black = new Color(0, 0, 0);
+        Color shirt = new Color(255, 179, 167);
+        Color white = new Color(255, 255, 255);
+        Color line = new Color(240, 86, 84);
 
         //body + jacket
         g.setColor(jacket);
         //g.fillRect(325,375,350,125);
-        Graphics2D graphics2D = (Graphics2D)g;
+        Graphics2D graphics2D = (Graphics2D) g;
         GeneralPath sleeve = new GeneralPath();
         sleeve.moveTo(325 + raise, 375 - raise);
         sleeve.curveTo(325 + raise, 375 - raise, 332, 450, 350 + raise, 500 - raise);
         sleeve.curveTo(350 + raise, 500 - raise, 382 + raise, 495, 425, 475);  //bottom
-        sleeve.lineTo(350 + raise / 3, 650 - raise / 3);
-        sleeve.curveTo(350 + raise / 3, 650 - raise / 3, 500, 675, 650 - raise / 3, 650 - raise / 3);
+        sleeve.lineTo(350 + raise / 3.0, 650 - raise / 3.0);
+        sleeve.curveTo(350 + raise / 3.0, 650 - raise / 3.0, 500, 675, 650 - raise / 3.0, 650 - raise / 3.0);
         sleeve.lineTo(575, 475);
         sleeve.curveTo(575, 475, 618, 495, 650 - raise, 500 - raise);  //bottom
         sleeve.curveTo(650 - raise, 500 - raise, 668, 450, 675 - raise, 375 - raise);
@@ -36,26 +36,26 @@ public class WZT {
 
         //head
         g.setColor(skin);
-        g.fillOval(400,200,200,175);  //head size: 8grid*7grid
+        g.fillOval(400, 200, 200, 175);  //head size: 8grid*7grid
 
         //inside
         g.setColor(line);  //lining
-        g.fillRect(450,375 - raise / 3,100,285 + raise / 3);
+        g.fillRect(450, 375 - raise / 3, 100, 285 + raise / 3);
         g.setColor(skin);   //neck
-        xpoints = new int[] {463, 500, 537};
+        xpoints = new int[]{463, 500, 537};
         ypoints = new int[]{375 - raise / 3, 425, 375 - raise / 3};
         npoints = 3;
         g.fillPolygon(xpoints, ypoints, npoints);
         g.setColor(black);  //dress
-        g.fillRect(463,500,74,161);
+        g.fillRect(463, 500, 74, 161);
         g.setColor(shirt);  //shirt
-        xpoints = new int[] {463, 500, 537, 537, 463};
+        xpoints = new int[]{463, 500, 537, 537, 463};
         ypoints = new int[]{375 - raise / 3, 425, 375 - raise / 3, 475, 475};
         npoints = 5;
         g.fillPolygon(xpoints, ypoints, npoints);
         g.setColor(line);
         g.drawPolygon(xpoints, ypoints, npoints);
-        g.drawLine(500,425,463,475);
+        g.drawLine(500, 425, 463, 475);
         g.setColor(white);
         g.fillRect(463, 475, 74, 25);
 
@@ -75,8 +75,8 @@ public class WZT {
 //        ribbonl.curveTo(338, 650, 400 + shouldAddOrSub, 563, 388, 563);
 //        ribbonl.curveTo(388, 563, 350 + shouldAddOrSub, 563, 400, 500);
 
-        ribbonl.lineTo(400, 375 - raise * 4 / 6);
-        ribbonl.lineTo(375, 375 - raise * 5 / 6);
+        ribbonl.lineTo(400, 375 - raise * 4.0 / 6);
+        ribbonl.lineTo(375, 375 - raise * 5.0 / 6);
         ribbonl.closePath();
         graphics2D.setColor(line);
         graphics2D.fill(ribbonl);
@@ -86,9 +86,9 @@ public class WZT {
         ribbonr.lineTo(625, 500);
         ribbonr.curveTo(625, 500, 638 + shouldAddOrSub, 563, 675 + shouldAddOrSub, 625);
         ribbonr.lineTo(662 + shouldAddOrSub, 650);
-        ribbonr.curveTo(662 + shouldAddOrSub, 650 , 612 + shouldAddOrSub, 563, 600, 500);
-        ribbonr.lineTo(600, 375 - raise * 4 / 6);
-        ribbonr.lineTo(625, 375 - raise * 5 / 6);
+        ribbonr.curveTo(662 + shouldAddOrSub, 650, 612 + shouldAddOrSub, 563, 600, 500);
+        ribbonr.lineTo(600, 375 - raise * 4.0 / 6);
+        ribbonr.lineTo(625, 375 - raise * 5.0 / 6);
         ribbonr.closePath();
         graphics2D.setColor(line);
         graphics2D.fill(ribbonr);
@@ -116,8 +116,8 @@ public class WZT {
         graphics2D.fill(hair);
 
         //eyes
-        g.fillOval(475,275,15,25);
-        g.fillOval(550,275,15,25);
+        g.fillOval(475, 275, 15, 25);
+        g.fillOval(550, 275, 15, 25);
 
         //mouth
         GeneralPath mouth = new GeneralPath();
@@ -130,8 +130,8 @@ public class WZT {
 
         //blush
         g.setColor(shirt);
-        g.fillOval(455,300,25,15);
-        g.fillOval(575,300,25,15);
+        g.fillOval(455, 300, 25, 15);
+        g.fillOval(575, 300, 25, 15);
     }
 
 }
