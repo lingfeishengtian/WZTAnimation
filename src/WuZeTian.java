@@ -30,7 +30,7 @@ class FrameDrawing extends JFrame {
         // Initialize Canvas
         WZTCanvas cd = new WZTCanvas();
         cd.setSize(1000, 700);
-        cd.setBackground(new Color(113, 170, 230));
+        cd.setBackground(new Color(170, 212, 246));
         add(cd);
 
         // Add key tracker
@@ -177,7 +177,7 @@ class WZTCanvas extends Canvas {
         g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
+        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
     }
 
     /**
@@ -185,7 +185,7 @@ class WZTCanvas extends Canvas {
      * @param g Graphics2D
      */
     private void reset(Graphics g) {
-        g.setColor(new Color(113, 170, 230));
+        g.setColor(new Color(170, 212, 246));
         g.fillRect(0, 0, 1000, 700);
     }
 

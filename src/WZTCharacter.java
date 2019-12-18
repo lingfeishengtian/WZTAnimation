@@ -10,10 +10,6 @@ class WZTCharacter {
      * @param raise how high did the user mouse click
      */
     static void drawWZT(Graphics g, long iterations, int speed, int raise) {
-        int[] xpoints;
-        int[] ypoints;
-        int npoints;
-
         //colors used
         Color skin = new Color(255, 244, 203);
         Color jacket = new Color(201, 31, 55);
@@ -26,7 +22,7 @@ class WZTCharacter {
         int shouldAddOrSub = (int) (50 * Math.sin((Math.PI / speed) * iterations));
 
         drawJacket(g, raise, skin, jacket, black, shirt, white, line, graphics2D, shouldAddOrSub);
-        drawHead(g, skin, jacket, black, shirt, graphics2D);
+        drawHead(g, skin, jacket, black, shirt, graphics2D, iterations);
     }
 
     private static void drawJacket(Graphics g, int raise, Color skin, Color jacket, Color black, Color shirt, Color white, Color line, Graphics2D graphics2D, int shouldAddOrSub) {
@@ -35,18 +31,48 @@ class WZTCharacter {
         drawRibbons(raise, line, graphics2D, shouldAddOrSub);
     }
 
-    private static void drawHead(Graphics g, Color skin, Color jacket, Color black, Color shirt, Graphics2D graphics2D) {
+    private static void drawHead(Graphics g, Color skin, Color jacket, Color black, Color shirt, Graphics2D graphics2D, long frameNum) {
         drawHead(g, skin);
         drawHair(black, graphics2D);
-        drawEyes(g);
+        drawEyes(g, frameNum);
         drawMouth(jacket, graphics2D);
         drawBlush(g, shirt);
+        drawForehead(graphics2D, jacket);
     }
 
     private static void drawBlush(Graphics g, Color shirt) {
-        g.setColor(shirt);
+        g.setColor(new Color(255, 96, 106));
         g.fillOval(455, 300, 25, 15);
         g.fillOval(575, 300, 25, 15);
+    }
+
+    private static void drawForehead(Graphics2D graphics2D, Color jacket){
+        GeneralPath f1 = new GeneralPath();
+        f1.moveTo(515, 250);
+        f1.curveTo(515, 250, 520, 245, 525, 250);
+        f1.lineTo(520, 265);
+        f1.lineTo(515, 250);
+        f1.closePath();
+        graphics2D.setColor(jacket);
+        graphics2D.fill(f1);
+
+        GeneralPath f2 = new GeneralPath();
+        f2.moveTo(520, 265);
+        f2.lineTo(510, 255);
+        f2.curveTo(510, 255, 500, 260, 505, 265);
+        f2.lineTo(520, 265);
+        f2.closePath();
+        graphics2D.setColor(jacket);
+        graphics2D.fill(f2);
+
+        GeneralPath f3 = new GeneralPath();
+        f3.moveTo(520, 265);
+        f3.lineTo(530, 255);
+        f3.curveTo(530, 255, 540, 260, 535, 265);
+        f3.lineTo(520, 265);
+        f3.closePath();
+        graphics2D.setColor(jacket);
+        graphics2D.fill(f3);
     }
 
     private static void drawMouth(Color jacket, Graphics2D graphics2D) {
@@ -59,7 +85,8 @@ class WZTCharacter {
         graphics2D.fill(mouth);
     }
 
-    private static void drawEyes(Graphics g) {
+    private static void drawEyes(Graphics g, long frameNum) {
+        int y = 275 + (int)(Math.pow(frameNum, 2.0));
         g.fillOval(475, 275, 15, 25);
         g.fillOval(550, 275, 15, 25);
     }

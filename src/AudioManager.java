@@ -1,14 +1,14 @@
 import javax.sound.sampled.*;
 import java.io.File;
-import java.io.IOException;
 
 public class AudioManager {
     static AudioInputStream BGMAudioStream;
     static Clip BGMclip;
+    static final boolean willExport = false;
 
     public static void playBGM(){
         try {
-            BGMAudioStream = AudioSystem.getAudioInputStream(new File("audio/bgm.wav"));
+            BGMAudioStream = AudioSystem.getAudioInputStream(new File(willExport ? "bgm.wav" : "audio/bgm.wav"));
             BGMclip = AudioSystem.getClip();
             BGMclip.open(BGMAudioStream);
             FloatControl gainControl =
@@ -36,7 +36,7 @@ public class AudioManager {
 
     public static void playBreeze(){
         try {
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("audio/windbreeze.wav"));
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(willExport ? "windbreeze.wav" : "audio/windbreeze.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             ((FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN)).setValue(-4.0f);

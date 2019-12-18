@@ -10,12 +10,56 @@ class BackgroundControl {
      * @param g Graphics
      */
     static void drawBackground(Graphics g) {
-        g.setColor(new Color(126, 200, 80));
+        g.setColor(new Color(22, 73, 11));
         g.fillRect(0, 500, 1000, 200);
         g.setColor(Color.black);
         g.drawString("Press i for more information!", 400, 20);
         BackgroundControl.drawShu(g, 30, 500);
         BackgroundControl.drawShu(g, 600, 500);
+        BackgroundControl.drawDeco(g, -400, -300);
+    }
+
+    public static void drawDeco(Graphics g, int x, int y)
+    {
+        Color flower = new Color (255,128,170);
+        Color petal = new Color (255,102,153);
+        Color stem = new Color (0,204,0);
+        Color leaf = new Color (0,190,0);
+
+        //extra colors
+        Color c1 = new Color (248, 139, 148);
+        Color c2 = new Color (231, 123, 159);
+        Color c3 = new Color (226, 92, 131);
+        Color c4 = new Color (247, 199, 191);
+        Color c5 = new Color (251, 171, 175);
+        Color c6 = new Color (194, 32, 71);
+        Color c7 = new Color (235, 99, 104);
+        Color c8 = new Color (166, 65, 86);
+        Color c9 = new Color (229, 72, 72);
+        Color c10 = new Color (206, 49, 61);
+        Color c11 = new Color (178, 36, 60);
+        Color c12 = new Color (255, 155, 0);
+        Color c13 = new Color (125, 203, 204);
+        Color c14 = new Color (194, 180, 225);
+        Color c15 = new Color (220, 68, 115);
+
+        //flower
+        g.setColor(leaf);
+        g.fillOval(716 + x,608 + y,20,10);
+        g.fillOval(688 + x,608 + y,20,10);
+        g.setColor(stem);
+        g.fillRect(708 + x,600 + y,8,50);
+        g.setColor(petal);
+        g.fillOval(695 + x,570 + y,15,15);
+        g.fillOval(705 + x,565 + y,15,15);
+        g.fillOval(715 + x,570 + y,15,15);
+        g.fillOval(718 + x,580 + y,15,15);
+        g.fillOval(715 + x,590 + y,15,15);
+        g.fillOval(705 + x,595 + y,15,15);
+        g.fillOval(695 + x,590 + y,15,15);
+        g.fillOval(690 + x,580 + y,15,15);
+        g.setColor(flower);
+        g.fillOval(700 + x,575 + y,25,25);
     }
 
     /**
@@ -55,7 +99,7 @@ class BackgroundControl {
         tree.curveTo(initialX, initialY - 200, initialX + 25, initialY - 180, initialX + 100, initialY - 200);
         tree.curveTo(initialX + 100, initialY - 200, initialX + 100 - 20, initialY - 100, initialX + 100, initialY);
         tree.closePath();
-        g.setColor(new Color(180, 79, 27));
+        g.setColor(new Color(105, 59, 35));
         ((Graphics2D) g).fill(tree);
 
         g.setColor(Color.pink);

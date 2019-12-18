@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WZTAnimation:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/WZTAnimation_jar</output-path>
+    <root id="archive" name="WZTAnimation.jar">
+      <element id="module-output" name="WZTAnimation" />
+    </root>
+  </artifact>
+</component>
